@@ -9,6 +9,12 @@ namespace ChromeDriver.PdfGeneration
     {
         public static void Main()
         {
+            var webpageFile = $"{Environment.CurrentDirectory}\\HTMLPage1.html";
+
+            var html = File.ReadAllText(webpageFile);
+
+            File.WriteAllText(webpageFile, html.Replace("[Name]", "Sir/Madam"));
+
             var chromeOptions = new ChromeOptions();
 
             chromeOptions.AddArgument("--headless");
@@ -18,7 +24,7 @@ namespace ChromeDriver.PdfGeneration
 
             var driver = new OpenQA.Selenium.Chrome.ChromeDriver(chromeOptions);
 
-            driver.Navigate().GoToUrl($"file:///{Environment.CurrentDirectory}\\HTMLPage1.html");
+            driver.Navigate().GoToUrl($"file:///{webpageFile}");
 
             var result = (Dictionary<string, object>)driver.ExecuteChromeCommandWithResult("Page.printToPDF", new Dictionary<string, object>
             {
